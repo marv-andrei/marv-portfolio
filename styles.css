@@ -133,6 +133,7 @@ nav ul a.active::after{
 .btn-ink{background:var(--ink);color:var(--paper)}
 .btn-ink:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
 .cta-row{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.btn svg{width:18px;height:18px;flex:0 0 auto}
 
 /* ---------- HERO ---------- */
 .hero{
@@ -389,6 +390,7 @@ a.feature-visual:hover .feature-logo{transform:scale(1.04);opacity:1}
 .contact-method{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.05rem 1.25rem;text-decoration:none;color:inherit;transition:border-color .2s,transform .2s}
 a.contact-method:hover{border-color:var(--accent);transform:translateY(-2px)}
 .cm-icon{font-size:1.15rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--paper-2);border-radius:11px;flex:0 0 auto;font-family:var(--display);font-weight:700;color:var(--accent-dk)}
+.cm-icon svg{width:21px;height:21px}
 .cm-text{display:flex;flex-direction:column;min-width:0}
 .cm-label{font-size:.7rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
 .cm-value{font-size:.98rem;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -431,7 +433,7 @@ footer .foot-tag{font-family:var(--display);font-size:1.1rem;color:var(--ink);ma
   .hero-content{grid-template-columns:1fr;gap:2.5rem}
   .hero-image{max-width:380px;margin:0 auto}
   .hero-image::after{inset:14px -14px -14px 14px}
-  .feature{grid-template-columns:1fr}
+  .feature{grid-template-columns:1fr!important}
   .feature-visual{min-height:200px}
   .help-grid,.pkg-grid{grid-template-columns:1fr}
   .why-grid,.about-short,.about-content{grid-template-columns:1fr;gap:2rem}
@@ -443,7 +445,7 @@ footer .foot-tag{font-family:var(--display);font-size:1.1rem;color:var(--ink);ma
   nav ul{gap:1rem;font-size:.85rem}
   nav ul li.hide-sm{display:none}
   .container{padding:0 1.25rem}
-  section{padding:4.5rem 0}
+  section{padding:3.4rem 0}
   .hero{padding:7.5rem 1.25rem 3rem}
   .hero h1{font-size:clamp(2rem,8.5vw,2.9rem)}
   .work-grid{grid-template-columns:1fr}
@@ -451,14 +453,20 @@ footer .foot-tag{font-family:var(--display);font-size:1.1rem;color:var(--ink);ma
   /* compact feature case-study blocks on phones */
   .feature-visual{padding:1.5rem;min-height:auto;gap:.9rem}
   .feature-body{padding:1.5rem}
-  .feature-logo{width:140px;max-width:44%;margin:.3rem 0}
-  .feature-visual h3{font-size:1.3rem}
-  .feature-visual .vmeta{font-size:.82rem;margin-top:.45rem}
-  .feature-badge{font-size:.64rem;padding:.32rem .7rem}
-  .feature-body p{font-size:.94rem;margin-bottom:.9rem}
-  .feature-body h4{margin-bottom:.5rem}
-  .tag-list{gap:.4rem;margin-bottom:1rem}
-  .tag-list span{font-size:.73rem;padding:.28rem .65rem}
-  .framing-note{font-size:.83rem;padding:.7rem .9rem;margin-bottom:1.1rem}
-  .feature-body .cta-row .btn{padding:.7rem 1.2rem;font-size:.88rem}
+  .feature-logo{width:118px;max-width:40%;margin:.2rem 0}
+  .feature-visual{min-height:150px}
+  .feature-visual h3{font-size:1.2rem}
+  .feature-visual .vmeta{font-size:.8rem;margin-top:.4rem}
+  .feature-badge{font-size:.62rem;padding:.3rem .65rem}
+  .feature-body p{font-size:.92rem;margin-bottom:.75rem;line-height:1.5}
+  .feature-body h4{margin-bottom:.45rem;font-size:.72rem}
+  /* readable pills, capped to the first 4 on phones to keep blocks short */
+  .tag-list{gap:.5rem;margin-bottom:1.1rem}
+  .tag-list span{font-size:.78rem;padding:.4rem .85rem}
+  .feature-body .tag-list span:nth-child(n+5){display:none}
+  .framing-note{font-size:.82rem;padding:.65rem .85rem;margin-bottom:1rem}
+  .feature-body .cta-row{margin-top:1rem!important}
+  .feature-body .cta-row .btn{padding:.65rem 1.1rem;font-size:.86rem}
+  /* shorter image thumbs in work/selected grids */
+  .work-thumb{height:150px}
 }
