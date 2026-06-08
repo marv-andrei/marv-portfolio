@@ -3,27 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aviation — Marv Pacinabao</title>
+  <title>Aviation Background — Marv Pacinabao</title>
+  <meta name="description" content="Before e-commerce, Marv worked in aircraft maintenance. The precision and process behind every build today.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="logo">marv.</a>
+  <a href="/" class="logo">marv<span>.</span></a>
   <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="work.html">Work</a></li>
-    <li><a href="aviation.html" class="active">Aviation</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="contact.html">Contact</a></li>
+    <li class="hide-sm"><a href="/">Home</a></li>
+    <li><a href="/work/">Work</a></li>
+    <li class="hide-sm"><a href="/#services">Services</a></li>
+    <li><a href="/about/" class="active">About</a></li>
+    <li><a href="/contact/" class="nav-cta">Work with me</a></li>
   </ul>
 </nav>
 
 <div class="page-header">
-  <h1>✈️ Aviation Background</h1>
-  <p>Before e‑commerce, I worked on aircraft. The precision, discipline, and attention to detail from aviation is the foundation of everything I do today.</p>
+  <span class="kicker"><a href="/about/" style="color:inherit;text-decoration:none">About</a> · Background</span>
+  <h1>Before e-commerce, I worked on <span class="em">aircraft.</span></h1>
+  <p>The precision, discipline, and attention to detail from aviation is the foundation of how I build and QA pages today.</p>
 </div>
 
 <section style="padding-top:2rem">
@@ -78,22 +81,27 @@
   </div>
 </section>
 
-<section style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<section style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="container" style="text-align:center">
     <p style="font-size:1.5rem;margin-bottom:.5rem">✈️ → 🛍️</p>
     <p style="color:var(--muted);font-size:1.05rem;max-width:500px;margin:0 auto">"The best mechanics and the best operators have the same trait: they care about the details nobody sees."</p>
   </div>
 </section>
 
-<section>
-  <div class="container" style="text-align:center">
-    <div class="section-title">Ready to work with someone who sweats the details?</div>
-    <a href="contact.html" class="btn btn-primary">Get in touch</a>
+<section class="cta-band">
+  <div class="container">
+    <h2>Want someone who <span class="em">sweats the details?</span></h2>
+    <p>The same standard that kept aircraft safe goes into every landing page, funnel, and QA pass.</p>
+    <div class="cta-row">
+      <a href="/contact/" class="btn btn-primary">Work with me</a>
+      <a href="/about/" class="btn btn-outline" style="border-color:rgba(241,235,224,.35);color:var(--paper)">← Back to about</a>
+    </div>
   </div>
 </section>
 
 <footer>
-  <p>© 2026 Marv Pacinabao. Built with precision. ✈️</p>
+  <p class="foot-tag">marv<span style="color:var(--accent)">.</span></p>
+  <p>© 2026 Marv Pacinabao · Shopify landing pages built for campaigns. · <a href="/contact/">Get in touch</a></p>
 </footer>
 
 </body>
