@@ -1,0 +1,11 @@
+{
+  "name": "marv-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Marv Pacinabao — funnel strategist & builder. Static HTML/CSS/JS site (no build step).",
+  "scripts": {
+    "dev": "python3 -m http.server 8001 --bind 127.0.0.1",
+    "start": "python3 -m http.server 8001 --bind 127.0.0.1",
+    "dev:hot": "npx --yes live-server --port=8001 --no-browser"
+  }
+}
