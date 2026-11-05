@@ -1,0 +1,9 @@
+---
+import type {Project} from '../data/projects';
+interface Props {project:Project; featured?:boolean;}
+const {project:p,featured=false}=Astro.props;
+---
+<article class:list={['project',{featured}]} id={p.id} data-platform={p.platform}>
+<a class="project-image" style={`--project-bg:${p.color}`} href={`/work/${p.id}/`} aria-label={`Explore ${p.name}`}><img src={`/images/shots/${p.id}.webp`} width="1440" height="1000" loading="lazy" alt={`${p.name} ${p.kind.toLowerCase()} preview`}/><span class="image-link" aria-hidden="true">View project </span></a>
+<div class="project-meta"><span>{p.platform.replace('Shopify Funnelish','Shopify / Funnelish')}</span><span>{p.kind}</span></div><h3><a href={`/work/${p.id}/`}>{p.name}</a></h3><p>{p.description}</p>
+</article>

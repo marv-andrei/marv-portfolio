@@ -1,0 +1,12 @@
+---
+import Site from '../../layouts/Site.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import ContactBand from '../../components/ContactBand.astro';
+import {projects} from '../../data/projects';
+---
+<Site title="Selected work" description="Shopify storefronts, product advertorials, WordPress landing pages and GoHighLevel funnel support by Marv Pacinabao." active="work"><section class="wrap page-intro"><p class="section-context">Selected work</p><h1>The work,<br>up close.</h1><p>Different brands, different briefs. A collection of storefronts, product stories and connected funnels I’ve helped bring to life.</p></section><section class="wrap work-section"><div class="filters" role="group" aria-label="Filter projects by platform" hidden>{['All','Shopify','WordPress','GoHighLevel','Funnelish'].map(x=><button type="button" data-filter={x} aria-pressed={x==='All'?'true':'false'}>{x==='All'?'All work':x}</button>)}</div><p class="result-count" role="status" aria-live="polite" hidden></p><div class="project-grid">{projects.map(p=><ProjectCard project={p}/>)}</div></section><ContactBand/></Site>
+<script>
+const filterBar=document.querySelector<HTMLElement>('.filters');
+if(filterBar){const projects=[...document.querySelectorAll<HTMLElement>('.project[data-platform]')];const status=document.querySelector<HTMLElement>('.result-count')!;const buttons=[...filterBar.querySelectorAll<HTMLButtonElement>('button')];filterBar.hidden=false;status.hidden=false;
+const filter=(value:string)=>{let count=0;projects.forEach(project=>{const visible=value==='All'||project.dataset.platform!.split(' ').includes(value);project.hidden=!visible;if(visible)count++;});buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===value)));status.textContent=`${count} ${count===1?'project':'projects'}${value==='All'?'':` in ${value}`}`;};buttons.forEach(b=>b.addEventListener('click',()=>filter(b.dataset.filter!)));filter('All');}
+</script>

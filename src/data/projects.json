@@ -1,0 +1,91 @@
+[
+  {
+    "id": "orias",
+    "name": "ORIAS Essentials",
+    "platform": "Shopify",
+    "kind": "Custom storefront",
+    "color": "#E7E2DA",
+    "url": "https://essentials.orias.ph/",
+    "description": "A custom storefront for a Filipino fashion brand, bringing collections, product discovery and editorial content together.",
+    "scope": "Custom Shopify storefront and multi-collection catalog.",
+    "note": "The brief called for a store that could carry a full brand collection. The build brings product browsing and editorial content into one consistent shopping experience."
+  },
+  {
+    "id": "artin",
+    "name": "ARTIN Athletics",
+    "platform": "Shopify",
+    "kind": "Product landing pages",
+    "color": "#DCE6F0",
+    "url": "https://www.artin-athletics.com/pages/ht-performance",
+    "description": "Two product stories: a focused Hybrid Trainer page and a long-form comfort-shoe comparison.",
+    "scope": "Hybrid Trainer landing page and comfort-shoe advertorial.",
+    "note": "These pages use different structures for different buying questions: a focused product-benefit page and an editorial comparison for shoppers considering their options.",
+    "extra": "https://www.artin-athletics.com/pages/ik-probeerde-6-verschillende-comfort-schoenen"
+  },
+  {
+    "id": "zenith",
+    "name": "Zenith",
+    "platform": "WordPress",
+    "kind": "Elementor landing page",
+    "color": "#E4E9D8",
+    "url": "https://lp.tryzenith.ph/lp1-qz1/",
+    "description": "A WordPress product landing page that brings the night-cream story, product information and offer into one place.",
+    "scope": "Landing-page build in WordPress and Elementor.",
+    "note": "A product-focused layout that gives visitors a route from learning about the night cream to reviewing the offer. This example shows my WordPress landing-page work."
+  },
+  {
+    "id": "balzy",
+    "name": "BALZY",
+    "platform": "Shopify",
+    "kind": "Product advertorial",
+    "color": "#F0DCD7",
+    "url": "https://balzy.nl/pages/balzy-advertorial",
+    "description": "An interview-style advertorial that connects the product story, features and offer in a single reading flow.",
+    "scope": "Shopify advertorial page build.",
+    "note": "The interview format creates a natural reading sequence. Product features and the offer sit within the story rather than relying on a conventional product-grid layout."
+  },
+  {
+    "id": "cowmit",
+    "name": "Cowmit",
+    "platform": "Shopify",
+    "kind": "Long-form advertorial",
+    "color": "#E2E8D9",
+    "url": "https://cowmit.nl/pages/echte-eiwitreep?pb=0",
+    "description": "A protein-bar advertorial combining product explanations, comparison content, reviews and offers.",
+    "scope": "Long-form Shopify advertorial.",
+    "note": "The page brings product education and supporting content together before the offer. The live destination may reflect later updates by the brand."
+  },
+  {
+    "id": "vendrato",
+    "name": "Vendrato",
+    "platform": "GoHighLevel",
+    "kind": "Funnel and CRM support",
+    "color": "#F1E2D2",
+    "url": "https://vendrato.com/book/",
+    "description": "Landing and funnel support connecting service enquiries with GoHighLevel CRM, booking and lead capture.",
+    "scope": "GHL-connected funnel, booking and lead-capture support.",
+    "note": "My contribution covers landing and funnel support. The linked website is the public entry point into the booking flow, rather than a claim that the whole site was built in GHL."
+  },
+  {
+    "id": "komforten",
+    "name": "Komforten",
+    "platform": "Shopify Funnelish",
+    "kind": "Ecommerce support",
+    "color": "#DDE7E8",
+    "url": "https://www.komforten.se/",
+    "description": "Ongoing page and funnel support for a Sweden-based ecommerce brand, from product updates to campaign execution.",
+    "scope": "Shopify pages, Funnelish updates, translations and QA.",
+    "note": "Ongoing ecommerce work spans page changes, product content and campaign support. It calls for maintaining consistency as offers and content change."
+  },
+  {
+    "id": "gawangdiwa",
+    "name": "Gawang Diwa",
+    "platform": "Shopify",
+    "kind": "Brand storefront",
+    "color": "#EAE0EA",
+    "url": "https://gawangdiwa.com/",
+    "description": "A Shopify storefront for a flower-preservation brand, with seasonal collections and an organized product catalog.",
+    "scope": "Shopify storefront and collection setup.",
+    "note": "The catalog and seasonal collections give visitors a clearer way to discover products and move through the store."
+  }
+]

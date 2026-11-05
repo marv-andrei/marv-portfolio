@@ -1,0 +1,35 @@
+---
+import {projects} from '../data/projects';
+const picks=['orias','artin','zenith','balzy','vendrato'].map(id=>projects.find(p=>p.id===id)!);
+---
+<section class="project-reel" aria-label="Selected project reel">
+<div class="reel-heading"><span>A closer look at the work</span><p>Drag to explore. Open a project to see the build.</p></div>
+<div class="reel-bleed"><div class="reel-track" tabindex="0" role="region" aria-label="Project gallery. Use left and right arrow keys to browse.">
+{picks.map((p,i)=><article class="reel-item" data-project={p.id} aria-label={`${i+1} of ${picks.length}: ${p.name}`}>
+<a class="reel-link" href={`/work/${p.id}/`} aria-label={`Explore ${p.name}`} draggable="false"><div class="reel-visual" style={`--reel-surface:${p.color}`}><img src={`/images/shots/${p.id}.webp`} width="1440" height="1000" loading={i<2?'eager':'lazy'} alt={`${p.name} website build`} draggable="false"/><span class="reel-open">Explore project</span></div><div class="reel-caption"><div><p>{p.platform.replace('Shopify Funnelish','Shopify / Funnelish')}</p><h2>{p.name}</h2></div><span>{p.kind}</span></div></a>
+</article>)}
+</div><span class="reel-drag-cursor" aria-hidden="true">Drag</span></div>
+<div class="reel-navigation" hidden><div class="reel-markers" role="group" aria-label="Choose a project">{picks.map((p,i)=><button type="button" aria-label={`Show ${p.name}`} aria-pressed={i===0?'true':'false'} data-index={i}><span></span></button>)}</div><p class="reel-status" aria-live="polite" aria-atomic="true">01 / 05</p><div class="reel-step"><button type="button" data-step="-1" disabled>Previous</button><button type="button" data-step="1">Next</button></div></div>
+</section>
+<script>
+const reel=document.querySelector<HTMLElement>('.project-reel');
+if(reel){const track=reel.querySelector<HTMLElement>('.reel-track')!;const cards=[...track.querySelectorAll<HTMLElement>('.reel-item')];const nav=reel.querySelector<HTMLElement>('.reel-navigation')!;const dots=[...reel.querySelectorAll<HTMLButtonElement>('[data-index]')];const steps=[...reel.querySelectorAll<HTMLButtonElement>('[data-step]')];const status=reel.querySelector<HTMLElement>('.reel-status')!;const cursor=reel.querySelector<HTMLElement>('.reel-drag-cursor')!;const bleed=reel.querySelector<HTMLElement>('.reel-bleed')!;const reduce=matchMedia('(prefers-reduced-motion: reduce)');nav.hidden=false;
+let current=0;let frame=0;let settle:ReturnType<typeof setTimeout>;let dragging=false;let moved=false;let startX=0;let startScroll=0;let lastX=0;let lastTime=0;let velocity=0;
+const positions=()=>cards.map(c=>c.offsetLeft-cards[0].offsetLeft);
+const nearest=(x=track.scrollLeft)=>{const points=positions();return points.reduce((best,p,i)=>Math.abs(p-x)<Math.abs(points[best]-x)?i:best,0)};
+const announce=(index:number)=>{current=index;dots.forEach((d,i)=>d.setAttribute('aria-pressed',String(i===index)));steps[0].disabled=index===0;steps[1].disabled=index===cards.length-1;status.textContent=`${String(index+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;};
+const go=(index:number)=>{const next=Math.max(0,Math.min(cards.length-1,index));track.scrollTo({left:positions()[next],behavior:reduce.matches?'instant':'smooth'});announce(next);};
+const paint=()=>{frame=0;const points=positions();const span=cards[0].offsetWidth+24;cards.forEach((c,i)=>{const distance=Math.max(-1,Math.min(1,(points[i]-track.scrollLeft)/span));c.style.setProperty('--reel-scale',String(reduce.matches?1:1-Math.abs(distance)*.055));c.style.setProperty('--reel-angle',`${reduce.matches?0:distance*-3}deg`);});};
+track.addEventListener('scroll',()=>{if(!frame)frame=requestAnimationFrame(paint);clearTimeout(settle);settle=setTimeout(()=>announce(nearest()),140);},{passive:true});
+dots.forEach(d=>d.addEventListener('click',()=>go(Number(d.dataset.index))));steps.forEach(b=>b.addEventListener('click',()=>go(nearest()+Number(b.dataset.step))));
+track.addEventListener('keydown',e=>{let target=nearest();if(e.key==='ArrowRight')target++;else if(e.key==='ArrowLeft')target--;else if(e.key==='Home')target=0;else if(e.key==='End')target=cards.length-1;else return;e.preventDefault();go(target);});
+track.addEventListener('focusin',e=>{const card=(e.target as HTMLElement).closest<HTMLElement>('.reel-item');if(card)go(cards.indexOf(card));});
+track.addEventListener('dragstart',e=>e.preventDefault());
+track.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;dragging=true;moved=false;startX=lastX=e.clientX;startScroll=track.scrollLeft;lastTime=e.timeStamp;velocity=0;});
+track.addEventListener('pointermove',e=>{const rect=bleed.getBoundingClientRect();cursor.style.left=`${e.clientX-rect.left}px`;cursor.style.top=`${e.clientY-rect.top}px`;if(e.pointerType==='mouse'&&!reduce.matches)bleed.classList.add('pointer-present');if(!dragging)return;const dx=e.clientX-startX;if(Math.abs(dx)>5&&!moved){moved=true;track.setPointerCapture(e.pointerId);track.classList.add('is-dragging');}if(moved){e.preventDefault();const elapsed=Math.max(1,e.timeStamp-lastTime);velocity=(lastX-e.clientX)/elapsed;track.scrollLeft=startScroll-dx;lastX=e.clientX;lastTime=e.timeStamp;}});
+const finish=(e:PointerEvent)=>{if(!dragging)return;dragging=false;track.classList.remove('is-dragging');if(track.hasPointerCapture(e.pointerId))track.releasePointerCapture(e.pointerId);if(moved){const projected=track.scrollLeft+Math.max(-450,Math.min(450,velocity*180));go(nearest(projected));setTimeout(()=>{moved=false},0);}};
+track.addEventListener('pointerup',finish);track.addEventListener('pointercancel',finish);track.addEventListener('pointerleave',e=>{bleed.classList.remove('pointer-present');if(dragging&&!moved)finish(e);});
+track.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();}},true);
+reduce.addEventListener('change',()=>{bleed.classList.remove('pointer-present');paint();});window.addEventListener('resize',()=>{track.scrollTo({left:positions()[current],behavior:'instant'});paint();});paint();
+}
+</script>

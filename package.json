@@ -1,11 +1,28 @@
 {
   "name": "marv-portfolio",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Marv Pacinabao — funnel strategist & builder. Static HTML/CSS/JS site (no build step).",
+  "type": "module",
+  "description": "Marv Pacinabao portfolio, built with Astro.",
   "scripts": {
-    "dev": "python3 -m http.server 8001 --bind 127.0.0.1",
-    "start": "python3 -m http.server 8001 --bind 127.0.0.1",
-    "dev:hot": "npx --yes live-server --port=8001 --no-browser"
+    "dev": "astro dev --host 127.0.0.1 --port 8038",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1 --port 8038",
+    "check": "astro check",
+    "test": "node --test tests/content.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "render:assets": "node scripts/render-assets.mjs"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "dependencies": {
+    "@fontsource-variable/schibsted-grotesk": "^5.3.0",
+    "astro": "7.4.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "playwright": "^1.62.1",
+    "typescript": "^5.9.3"
   }
 }

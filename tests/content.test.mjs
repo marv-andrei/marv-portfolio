@@ -1,0 +1,9 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+const projects=JSON.parse(fs.readFileSync('src/data/projects.json','utf8'));
+function htmlFiles(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?htmlFiles(path.join(dir,e.name)):e.name.endsWith('.html')?[path.join(dir,e.name)]:[])}
+test('project inventory preserves all eight examples and their evidence',()=>{assert.equal(projects.length,8);assert.equal(new Set(projects.map(p=>p.id)).size,8);for(const p of projects){assert.equal(new URL(p.url).protocol,'https:');assert.ok(p.scope);assert.ok(fs.existsSync(`public/images/shots/${p.id}.webp`));assert.ok(fs.existsSync(`dist/work/${p.id}/index.html`));}assert.match(projects.find(p=>p.id==='vendrato').scope,/support/i)});
+test('built pages have titles, descriptions, canonical URLs and one primary heading',()=>{for(const file of htmlFiles('dist')){const html=fs.readFileSync(file,'utf8');assert.equal((html.match(/<h1[\s>]/g)||[]).length,1,file);assert.match(html,/<title>[^<]+<\/title>/);assert.match(html,/<meta name="description" content="[^"]+"/);assert.match(html,/<link rel="canonical" href="https:\/\/marvpacinabao.com/);assert.doesNotMatch(html,/representative estimates|Conversion vs\. old template|More leads captured/);}});
+test('all internal page and asset links resolve in the build',()=>{for(const file of htmlFiles('dist')){const html=fs.readFileSync(file,'utf8');for(const match of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)){const url=new URL(match[1].replaceAll('&amp;','&'),'https://marvpacinabao.com');const local=path.join('dist',decodeURIComponent(url.pathname));const target=url.pathname.endsWith('/')?path.join(local,'index.html'):local;assert.ok(fs.existsSync(target),`${file}: missing ${url.pathname}`);}}});
