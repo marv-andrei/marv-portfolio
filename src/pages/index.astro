@@ -1,20 +1,15 @@
 ---
 import Site from '../layouts/Site.astro';
 import ContactBand from '../components/ContactBand.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 import WorkExplorer from '../components/WorkExplorer.astro';
-import {projects} from '../data/projects';
-const selected=projects.filter(p=>['orias','artin','zenith','balzy'].includes(p.id));
 ---
 <Site title="Websites with a little more thought" description="Marv Pacinabao builds thoughtful Shopify storefronts, WordPress landing pages and connected funnels. Explore the work and meet your next page builder.">
-<section class="studio-hero wrap">
-<div class="hero-topline"><p>Marv Pacinabao<br><span>Independent web &amp; funnel builder</span></p><p class="hero-place"><span class="status-dot"></span>Based in the Philippines<br>Working across time zones</p></div>
-<h1>Pages that<br>mean business<span class="period">.</span></h1>
-<div class="hero-bottom"><a class="button button-blue" href="#selected-work">Explore the work</a><p>I turn a brand’s story into a website people can use. Storefronts, landing pages and the small details that make them feel right.</p><a class="text-link" href="/contact/">Let’s make something</a></div>
-<WorkExplorer/>
+<section class="portfolio-intro wrap">
+<h1>Marv Pacinabao<span class="name-dot">.</span></h1>
+<div class="intro-details"><p class="intro-role">Web &amp; funnel builder<br><span>Based in the Philippines</span></p><p class="intro-summary">I build Shopify storefronts, WordPress pages and connected funnels for brands and agencies.</p><a class="text-link" href="/contact/">Let’s work together</a></div>
 </section>
+<div class="wrap home-reel" id="selected-work"><WorkExplorer/><div class="work-archive-link"><p>Eight builds. Different brands. My attention to the details.</p><a class="text-link" href="/work/">Explore all projects</a></div></div>
 <section class="platform-strip"><div class="wrap"><p>Different platforms.<br>The same attention to detail.</p><ul><li>Shopify</li><li>WordPress</li><li>GoHighLevel</li><li>Funnelish</li></ul></div></section>
-<section class="section wrap selected-work" id="selected-work"><div class="section-heading"><h2>A few things<br>I’ve put out there.</h2><div><p>From a Filipino fashion label to<br>European ecommerce brands.</p><a class="text-link" href="/work/">All eight projects </a></div></div><div class="project-grid curated-grid">{selected.map((p,i)=><ProjectCard project={p} featured={i===0}/>)}</div></section>
 <section class="services-section"><div class="wrap services-layout"><div><p class="section-context">How I can help</p><h2>Your next launch.<br>My kind of work.</h2><p>One page or a whole storefront. A new campaign or the steady work of keeping things running.</p><a href="/services/" class="button button-white">Find the right fit </a></div><div class="service-list"><article><span>Shopify</span><h3>A store that feels like your brand.</h3><p>Custom storefronts, collection layouts and product pages that bring the catalog together.</p></article><article><span>WordPress &amp; Elementor</span><h3>A page with a clear purpose.</h3><p>Product launches and campaign pages built around the story, the offer and the next step.</p></article><article><span>GoHighLevel &amp; Funnelish</span><h3>The pieces around the page.</h3><p>Funnel updates, booking and lead-capture support, plus ongoing ecommerce maintenance.</p></article></div></div></section>
 <section class="section wrap personal-section"><div class="personal-art" aria-hidden="true"><span class="personal-monogram">mp.</span><span class="personal-stamp">Care goes into<br>the details.</span></div><div><p class="section-context">A little about me</p><h2>I’m Marv.<br>Builder by habit.</h2><p>I used to work with aircraft. These days, I work with websites. Different tools, same instinct to understand how the pieces fit and get the details right.</p><p>Two years into building for brands and agencies, I’m still happiest turning a good brief into something you can actually click through.</p><a class="text-link" href="/about/">The longer version </a></div></section><ContactBand/>
 </Site>

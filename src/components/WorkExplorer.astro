@@ -3,7 +3,7 @@ import {projects} from '../data/projects';
 const picks=['orias','artin','zenith','balzy','vendrato'].map(id=>projects.find(p=>p.id===id)!);
 ---
 <section class="project-reel" aria-label="Selected project reel">
-<div class="reel-heading"><span>A closer look at the work</span><p>Drag to explore. Open a project to see the build.</p></div>
+<div class="reel-heading"><span>A closer look at the work</span><p>Swipe or drag to explore. Open a project to see the build.</p></div>
 <div class="reel-bleed"><div class="reel-track" tabindex="0" role="region" aria-label="Project gallery. Use left and right arrow keys to browse.">
 {picks.map((p,i)=><article class="reel-item" data-project={p.id} aria-label={`${i+1} of ${picks.length}: ${p.name}`}>
 <a class="reel-link" href={`/work/${p.id}/`} aria-label={`Explore ${p.name}`} draggable="false"><div class="reel-visual" style={`--reel-surface:${p.color}`}><img src={`/images/shots/${p.id}.webp`} width="1440" height="1000" loading={i<2?'eager':'lazy'} alt={`${p.name} website build`} draggable="false"/><span class="reel-open">Explore project</span></div><div class="reel-caption"><div><p>{p.platform.replace('Shopify Funnelish','Shopify / Funnelish')}</p><h2>{p.name}</h2></div><span>{p.kind}</span></div></a>
