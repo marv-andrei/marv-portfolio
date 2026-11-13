@@ -1,12 +1,14 @@
-/* Homepage story, 2026-11-13: a sticky blueprint scene beside six short first-person beats,
+/* Homepage story, 2026-11-13: a sticky 3D scene beside six short first-person beats,
    then the real work, then how Marv's work maps to Vendrato's offers. */
 .st-story{position:relative}
 .st-stage{position:sticky;top:0;height:100vh;overflow:hidden}
-.st-stage canvas{display:block;width:100%;height:100%;touch-action:pan-y}
+.st-stage canvas{display:block;width:100%;height:100%;touch-action:pan-y;opacity:0;transition:opacity .7s}
+.st-on .st-stage canvas{opacity:1}
+.st-off .st-stage canvas,.st-off .st-hint,.st-off .st-tag{display:none}
 .st-hint{position:absolute;left:max(56px,calc((100vw - 1360px)/2));bottom:28px;font-size:13px;font-weight:500;color:var(--muted);transition:opacity .4s}
 .st-tag{position:absolute;left:0;top:0;display:grid;gap:4px;justify-items:center;text-align:center;pointer-events:none;opacity:0;transition:opacity .35s;white-space:nowrap}
 .st-tag b{font-weight:500;font-size:clamp(20px,1.9vw,30px);letter-spacing:-.03em}
-.st-tag span{font-size:13px;font-weight:500;color:var(--muted)}
+.st-tag span{font-size:13px;font-weight:500;color:var(--muted);white-space:normal;max-width:34ch;line-height:1.4}
 .st-beats{position:relative;margin-top:-100vh;pointer-events:none}
 .st-beat{min-height:100vh;display:flex;align-items:center;padding-block:96px}
 .st-beat:first-child{min-height:calc(100vh - 112px);padding-top:24px}
@@ -16,6 +18,13 @@
 .st-in p{color:var(--muted);font-size:17px;max-width:44ch}
 .st-in .st-lede{font-size:clamp(18px,1.5vw,24px);line-height:1.45;max-width:34ch}
 .st-cta{display:flex;gap:12px;flex-wrap:wrap}
+.st-proof{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:14px 22px}
+.st-proof a{display:grid;grid-template-columns:88px auto;gap:12px;align-items:center}
+.st-proof img{width:88px;height:61px;object-fit:cover;object-position:top;border-radius:2px;border:1px solid var(--line)}
+.st-proof span{display:grid;gap:2px;font-size:12px;color:var(--muted);line-height:1.3}
+.st-proof b{font-size:14px;font-weight:500;color:var(--ink)}
+.st-proof a:hover b{color:var(--signal)}
+.st-proof a:hover img{border-color:var(--signal)}
 .st-ghost{border-color:var(--line);color:var(--ink)}
 .st-ghost:hover{border-color:var(--ink)}
 .st-inline{text-decoration:underline;text-underline-offset:4px}
@@ -37,8 +46,15 @@
 .st-facts dt{font-size:13px;font-weight:600;color:#c53d14;margin-bottom:10px}
 .st-facts dd{margin:0;font-size:clamp(20px,1.9vw,30px);font-weight:500;letter-spacing:-.03em;line-height:1.15}
 @media(max-width:820px){
-  .st-stage canvas{opacity:.4}.st-tag{display:none}.st-hint{left:20px}
-  .st-in{max-width:100%}.st-beat:first-child{min-height:calc(100vh - 86px)}
+  /* small screens: the set piece keeps the top of the screen and the text scrolls up underneath it, so the piece is never covered and can be tapped */
+  .st-stage{height:44vh;height:44svh;min-height:300px;z-index:2;overflow:visible;background:var(--paper)}
+  .st-stage::after{content:"";position:absolute;left:0;right:0;top:100%;height:32px;background:linear-gradient(var(--paper),transparent);pointer-events:none}
+  .st-off .st-stage{display:none}
+  .st-hint{display:none}.st-tag b{font-size:17px}.st-tag span{font-size:12px;max-width:32ch}
+  .st-beats{margin-top:0}
+  .st-beat{min-height:56vh;min-height:56svh;align-items:flex-start;padding-block:40px}
+  .st-beat:first-child{min-height:0;padding-top:32px}
+  .st-in{max-width:100%}
   .st-ways,.st-facts{grid-template-columns:1fr}
   .st-ways article:nth-child(even){border-left:0;padding-left:0}.st-ways article+article{border-top:1px solid #c9c6bf}
 }

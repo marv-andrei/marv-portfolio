@@ -2,18 +2,21 @@
 import Site from '../layouts/Site.astro';
 import ContactBand from '../components/ContactBand.astro';
 import WorkExplorer from '../components/WorkExplorer.astro';
-import BlueprintScene from '../components/BlueprintScene.astro';
+import StoryScene from '../components/StoryScene.astro';
 import '../styles/home.css';
+import {projects} from '../data/projects';
+const pick=(ids:string[])=>ids.map(id=>projects.find(p=>p.id===id)!);
+const built=pick(['orias','gawangdiwa','zenith']), steps=pick(['balzy','artin','komforten']), wired=pick(['vendrato']);
 ---
 <Site title="Websites, and what happens after the click" description="Marv Pacinabao is a consultant at Vendrato. He builds websites and storefronts and connects them to the CRM, booking, automations and tracking behind them.">
 <section class="st-story" id="st-story">
-<BlueprintScene/>
+<StoryScene/>
 <div class="st-beats">
 <div class="st-beat"><div class="wrap"><div class="st-in"><h1>Websites, and what happens after the click.</h1><p class="st-lede">I’m Marv, a consultant at Vendrato. I build websites and storefronts, then connect them to the CRM, booking, automations and tracking that turn a visit into a customer.</p><div class="st-cta"><a class="button button-blue" href="https://vendrato.com/book">Book a free call</a><a class="button st-ghost" href="#selected-work">See the work</a></div></div></div></div>
 <div class="st-beat" id="story"><div class="wrap"><div class="st-in"><h2>I learned to check things twice.</h2><p>My first trade was aircraft maintenance and inspection. You follow the checklist, you troubleshoot in order, and you never sign off on something you didn’t look at. I left the trade. The habit came with me.</p><a class="text-link" href="/aviation/">My aviation background</a></div></div></div>
-<div class="st-beat"><div class="wrap"><div class="st-in"><h2>Then I wanted to make the thing myself.</h2><p>After a stretch doing outreach and partnerships at a startup, I learned HTML, CSS and JavaScript by hand. Page builders came later. When Elementor or a Shopify section misbehaves now, I know where to look.</p></div></div></div>
-<div class="st-beat"><div class="wrap"><div class="st-in"><h2>A page is one step, not the whole trip.</h2><p>Supporting a Sweden-based brand, I built Shopify pages, kept Funnelish funnels updated, handled translations and ran QA before campaigns. A page sits between an ad and a checkout. I build it knowing both sides.</p></div></div></div>
-<div class="st-beat"><div class="wrap"><div class="st-in"><h2>Then it has to connect to something.</h2><p>That is the idea behind <a class="st-inline" href="https://vendrato.com/">Vendrato</a>, Gabriel Fordan’s web, automation and AI studio, where I’m a consultant. He works out the system. I build the pages people land on, then the part nobody sees: GoHighLevel pipelines and workflows, booking and reminders, Make and n8n automations, and the tracking that shows which ad paid for itself.</p></div></div></div>
+<div class="st-beat"><div class="wrap"><div class="st-in"><h2>Then I wanted to make the thing myself.</h2><p>After a stretch doing outreach and partnerships at a startup, I learned HTML, CSS and JavaScript by hand. Page builders came later. When Elementor or a Shopify section misbehaves now, I know where to look.</p><ul class="st-proof" aria-label="Projects built this way">{built.map(p=><li><a href={`/work/${p.id}/`}><img src={`/images/shots/${p.id}.webp`} width="1440" height="1000" loading="lazy" alt=""/><span><b>{p.name}</b>{p.kind}</span></a></li>)}</ul></div></div></div>
+<div class="st-beat"><div class="wrap"><div class="st-in"><h2>A page is one step, not the whole trip.</h2><p>Supporting a Sweden-based brand, I built Shopify pages, kept Funnelish funnels updated, handled translations and ran QA before campaigns. A page sits between an ad and a checkout. I build it knowing both sides.</p><ul class="st-proof" aria-label="Projects along the funnel">{steps.map(p=><li><a href={`/work/${p.id}/`}><img src={`/images/shots/${p.id}.webp`} width="1440" height="1000" loading="lazy" alt=""/><span><b>{p.name}</b>{p.kind}</span></a></li>)}</ul></div></div></div>
+<div class="st-beat"><div class="wrap"><div class="st-in"><h2>Then it has to connect to something.</h2><p>That is the idea behind <a class="st-inline" href="https://vendrato.com/">Vendrato</a>, Gabriel Fordan’s web, automation and AI studio, where I’m a consultant. He works out the system. I build the pages people land on, then the part nobody sees: GoHighLevel pipelines and workflows, booking and reminders, Make and n8n automations, and the tracking that shows which ad paid for itself.</p><ul class="st-proof" aria-label="Connected project">{wired.map(p=><li><a href={`/work/${p.id}/`}><img src={`/images/shots/${p.id}.webp`} width="1440" height="1000" loading="lazy" alt=""/><span><b>{p.name}</b>{p.kind}</span></a></li>)}</ul></div></div></div>
 <div class="st-beat"><div class="wrap"><div class="st-in"><h2>So I’m more than the person who builds the page.</h2><p>At Vendrato I work across the website, the CRM behind it and the automations between them. When you book a call with the studio, I’m one of the people you’ll talk to.</p><div class="st-cta"><a class="button st-ghost" href="#what-i-do">See what I do there</a></div></div></div></div>
 </div>
 </section>
