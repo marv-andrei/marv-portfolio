@@ -46,3 +46,16 @@ Supersedes the rejected teal/yellow revision. Black #101010 canvas, charcoal #20
 
 ## Mobile audit
 2026-11-05: 150 layout checks across 15 routes, 5 widths (320–768), Chromium/WebKit pass. Emulated touch swipe/Next and WebKit project links, navigation, filters, FAQ and contact brief tested. Enlarged mobile navigation heights and reel markers to 44px, wrapped reel steps to separate row, enlarged footer link height. No physical-device test. Evidence: scripts/mobile-audit.mjs and adjacent mobile-audit/results.json.
+
+## Vendrato consultant revision, 2026-11-13
+Requested by Gabriel Fordan: present Marv as a consultant at Vendrato and as more than an ecommerce page builder.
+
+Brand: all routes take Vendrato's published tokens from vendrato.com. Black #000, paper #edebe6, studio orange #f05123, muted #a8a6a0. Manrope variable (self-hosted) replaces Schibsted Grotesk as the root family, with medium-weight headings tracked at -0.045em and 2px corners on buttons. Header and footer carry the Vendrato logo followed by Marv's name. The primary action everywhere is "Book a free call" at vendrato.com/book; Marv's own contact page remains.
+
+Homepage: a scroll-told story in six first-person beats (aircraft maintenance, first builds, the Sweden-based brand, Vendrato, today) beside a sticky three.js scene. The scene is a page drawn in lines that is measured, separated into layers, joined by further pages and connected by an orange path as the story advances. It is decorative and hidden from assistive technology; every word is in the HTML. Hovering a part names the offer it stands for, a click redraws the page and dragging turns it. Native scroll is never intercepted, reduced motion removes idle movement and the draw-on, and without WebGL the canvas is hidden. The existing five-project reel follows the story unchanged.
+
+Offers: "What I do at Vendrato" maps Marv's part to the studio's published services and prices (Websites from US$2,000, CRM systems, Automations, maintenance from US$100 a month) and its three-step process. Prices are quoted from vendrato.com and must be updated when the studio changes them.
+
+Still honoured: no arrows or directional glyphs, no all-caps labels, no fabricated metrics. Unverified figures from older résumé drafts were left out.
+
+To confirm with Marv before deployment: the automation and tracking claims in the Vendrato beat, and that he joins studio calls.

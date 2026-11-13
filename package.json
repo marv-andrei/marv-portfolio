@@ -17,8 +17,10 @@
     "node": ">=22.23.4"
   },
   "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
     "@fontsource-variable/schibsted-grotesk": "^5.3.0",
-    "astro": "7.4.5"
+    "astro": "7.4.5",
+    "three": "^0.128.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
