@@ -185,13 +185,40 @@ p1.tick=function(){spring(p1.s,.16,.8); if(p1.m) p1.m.rotation.z=p1.s.x; p1.seal
 
 /* ---------- 2. Built by hand: a page assembles on the laptop's own screen, then the real build shows ---------- */
 var p2=piece(2,'Built by hand','Scroll to build the page.',-.42,.08); p2.kn=0; p2.cur=0;
-/* the screen's centre, tilt and size were measured from the laptop mesh (normalised units) */
-var SW=1.86, SH=1.134, screenG=new THREE.Group(); screenG.position.set(0,.141,-.731); screenG.rotation.x=-.263;
+/* the laptop is made in code so its lines stay crisp and the screen fits the lid exactly: a brushed slab with real keys,
+   a thin lid hinged at the back, a black bezel, and an orange front lip (the part of it you act on) */
+var SW=1.8, SH=1.125, screenG=new THREE.Group();
 screenG.add(new THREE.Mesh(new THREE.PlaneGeometry(SW,SH),new THREE.MeshBasicMaterial({color:0x050505,toneMapped:false})));
 var BUILT=['orias','gawangdiwa','cowmit'].map(function(id){var m=shot(id,SW,SH); m.position.z=.004; screenG.add(m); return m;});
 var page=new THREE.Group(); page.position.z=.02; page.scale.setScalar(SW/4.5); screenG.add(page);
-/* gunmetal shell, black keys, and an orange front lip */
-p2.ready=false; p2.need=function(){load('laptop',[gunmetal,rubber,orange],2.5,function(m,bb){p2.ready=true; m.position.set(-.3,-2-bb.min.y*2.5,0); m.add(screenG); p2.g.add(m); pickable(m,p2);},function(x,y,z,nx,ny,nz){return (nz>.75&&z>.9&&y<-.5)?2:(ny>.8&&y<-.55&&z>-.42&&z<.3&&Math.abs(x)<.86)?1:0;});};
+(function(){
+  var alu=new P({color:0xc4c2bd,roughness:.36,metalness:.92,envMapIntensity:.85});
+  /* a rounded rectangle w by h, extruded to thickness t and centred */
+  function plate(w,h,t,r,mat){var s=new THREE.Shape(), x=-w/2, y=-h/2;
+    s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r); s.lineTo(x+w,y+h-r); s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r); s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y);
+    var g=new THREE.ExtrudeGeometry(s,{depth:t-.012,bevelEnabled:true,bevelThickness:.006,bevelSize:.006,bevelSegments:2,curveSegments:10}); g.translate(0,0,-(t-.012)/2);
+    return new THREE.Mesh(g,mat);}
+  var lap=new THREE.Group(), W=2.04, D=1.4, T=.07;
+  lap.scale.setScalar(2.5); lap.position.set(-.3,-1.3,.2); p2.g.add(lap);
+  var base=plate(W,D,T,.07,alu); base.rotation.x=-Math.PI/2; lap.add(base); pickable(base,p2);
+  var lip=new THREE.Mesh(new THREE.BoxGeometry(W-.16,.022,.014),orange); lip.position.set(0,0,D/2+.004); lap.add(lip);
+  /* keyboard well and keys */
+  var well=new THREE.Mesh(new THREE.BoxGeometry(1.78,.004,.6),rubber); well.position.set(0,T/2+.001,-.24); lap.add(well);
+  var ROWS=5, COLS=14, kw=1.74/COLS, kd=.56/ROWS, keys=new THREE.InstancedMesh(new THREE.BoxGeometry(kw-.022,.016,kd-.022),graphite,ROWS*COLS), o=new THREE.Object3D(), n=0;
+  for(var r=0;r<ROWS;r++) for(var c=0;c<COLS;c++){
+    /* the bottom row has a space bar: seven key widths joined into one */
+    var wide=r===ROWS-1&&c>=4&&c<=10; if(wide&&c!==7){o.scale.set(.0001,.0001,.0001);} else o.scale.set(wide?7.25:1,1,1);
+    o.position.set(-.87+kw*(c+.5),T/2+.011,-.52+kd*(r+.5)); o.updateMatrix(); keys.setMatrixAt(n++,o.matrix);}
+  lap.add(keys);
+  var pad=plate(.62,.36,.006,.03,new P({color:0xaeaca7,roughness:.5,metalness:.8,envMapIntensity:.6})); pad.rotation.x=-Math.PI/2; pad.position.set(0,T/2+.002,.38); lap.add(pad);
+  /* lid: hinged along the back edge and leaning back */
+  var hinge=new THREE.Mesh(new THREE.CylinderGeometry(.028,.028,W-.5,20),graphite); hinge.rotation.z=Math.PI/2; hinge.position.set(0,T/2+.005,-D/2+.03); lap.add(hinge);
+  var lid=new THREE.Group(); lid.position.set(0,T/2+.01,-D/2+.03); lid.rotation.x=-.22; lap.add(lid);
+  var LH=1.3, shell=plate(W,LH,.035,.07,alu); shell.position.y=LH/2; lid.add(shell); pickable(shell,p2);
+  var bezel=plate(W-.04,LH-.04,.006,.06,rubber); bezel.position.set(0,LH/2,.019); lid.add(bezel);
+  screenG.position.set(0,LH/2+.02,.024); lid.add(screenG);
+})();
 var seed=7; function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
 var qI=new THREE.Quaternion(), v=new THREE.Vector3();
 var blocks=[[0,1.02,4.1,.2,steel],[-1.05,.45,1.9,.38,plaster],[-1.2,.02,1.6,.15,steel],[-1.52,-.34,.86,.26,orange],[1.15,.2,1.75,1.15,plaster],[-1.4,-.95,1.25,.42,plaster],[0,-.95,1.25,.42,plaster],[1.4,-.95,1.25,.42,plaster]].map(function(d){
@@ -200,7 +227,7 @@ var blocks=[[0,1.02,4.1,.2,steel],[-1.05,.45,1.9,.38,plaster],[-1.2,.02,1.6,.15,
   return {m:m,home:new THREE.Vector3(d[0],d[1],0),loose:new THREE.Vector3(Math.cos(a)*r,Math.sin(a)*r*.7+1,1.5+rnd()*4),
           q0:new THREE.Quaternion().setFromEuler(new THREE.Euler((rnd()-.5)*2.6,(rnd()-.5)*2.6,(rnd()-.5)*1.8)),ph:rnd()*6.283};
 });
-p2.click=function(){p2.kn=1; p2.cur=(p2.cur+1)%BUILT.length;};
+p2.click=function(){p2.kn=1; p2.cur=(p2.cur+1)%BUILT.length; tell(BUILT[p2.cur].userData.id);};
 p2.tick=function(dt,time,F){
   p2.kn=Math.max(0,p2.kn-dt*.45);
   var built=sm(F,1.25,1.9), mix=Math.max(1-built,sm(p2.kn,0,.7)), idle=reduced?0:1;
@@ -226,7 +253,8 @@ var stops=STOPS.map(function(x){var d=new THREE.Mesh(new THREE.CylinderGeometry(
 /* paper box, orange tape around it, a dark shipping label on top */
 p3.ready=false; p3.need=function(){load('parcel',[paper,orange,graphite],.95,function(m,bb){p3.ready=true; p3.m=m; m.position.y=-1.16-bb.min.y*.95; p3.g.add(m); pickable(m,p3);},function(x,y,z,nx,ny,nz){return (Math.abs(z)<.09||Math.abs(x)<.09)?1:((ny>.8&&y>.55&&x>.3&&x<.85&&z>.2&&z<.62)||(nz>.8&&z>.6&&x<-.3&&x>-.85&&Math.abs(y)<.3))?2:0;});};
 boards.forEach(function(g){p3.g.add(g); pickable(g.userData.back,p3);});
-p3.click=function(){p3.stop=(p3.stop+1)%3; p3.sub=STEPWORD[p3.stop]+'. This one is '+label(STEPID[p3.stop])+'.';};
+p3.go=function(k){p3.stop=k; p3.sub=STEPWORD[k]+'. This one is '+label(STEPID[k])+'.';};
+p3.click=function(){p3.go((p3.stop+1)%3); tell(STEPID[p3.stop]);};
 p3.tick=function(){p3.x+=(STOPS[p3.stop]-p3.x)*.1; if(p3.m){p3.m.position.x=p3.x; p3.m.rotation.y=(STOPS[p3.stop]-p3.x)*.12;} stops.forEach(function(d,i){d.material=i===p3.stop?orange:plaster;});
   boards.forEach(function(g,i){var on=i===p3.stop; bright(g.userData.s,on?1:.22); g.scale.setScalar(g.scale.x+((on?1.08:1)-g.scale.x)*.12);});};
 
@@ -246,7 +274,7 @@ var g1=gear(18,paper,graphite), g2=gear(12,gunmetal,orange), g3=gear(8,orange,gr
 g1.position.set(-1.8,-.35,0); g2.position.set(-1.8+g1.userData.r+g2.userData.r,-.35,0);
 var ang=1.05; g3.position.set(g2.position.x+Math.cos(ang)*(g2.userData.r+g3.userData.r),g2.position.y+Math.sin(ang)*(g2.userData.r+g3.userData.r),0);
 var vscreen=framed('vendrato',2.2); vscreen.position.set(-2.45,2.15,-1); p4.g.add(vscreen); pickable(vscreen.userData.back,p4); p4.lit=0;
-p4.click=function(){p4.spin=Math.min(9,p4.spin+4.5); p4.lit=1; p4.sub='One turns and the rest follow. They are running '+(label('vendrato')||'the funnel')+'.';};
+p4.click=function(){tell('vendrato'); p4.spin=Math.min(9,p4.spin+4.5); p4.lit=1; p4.sub='One turns and the rest follow. They are running '+(label('vendrato')||'the funnel')+'.';};
 p4.tick=function(dt,time,F){
   p4.spin*=Math.pow(.35,dt); p4.a+=dt*((reduced?0:.25)+p4.spin);
   var a=p4.a+F*1.2;
@@ -263,6 +291,15 @@ var ring5=pulseRing(1.5); ring5.position.y=.3; p5.g.add(ring5);
 p5.ready=false; p5.need=function(){load('bell',[graphite,steel,orange],2.1,function(m){p5.ready=true; p5.m=m; p5.g.add(m); pickable(m,p5);},function(x,y){return y<-.6?0:y<.56?1:2;});};
 p5.click=function(){p5.s.v=-.13; ring5.userData.t=.001; p5.sub='Ding. The real one is the orange button, top right.';};
 p5.tick=function(dt){spring(p5.s,.22,.8); if(p5.m){p5.m.scale.y=2.1*(1+p5.s.x); p5.m.position.y=p5.s.x;} runPulse(ring5,dt,1.2);};
+
+/* ---------- the related projects beside each beat: pointing at one drives its piece, and using a piece reports back ---------- */
+function tell(id){window.dispatchEvent(new CustomEvent('st-scene-project',{detail:id}));}
+window.addEventListener('st-project',function(e){
+  var id=e.detail, k;
+  for(k=0;k<BUILT.length;k++) if(BUILT[k].userData.id===id){p2.cur=k; return;}
+  if((k=STEPID.indexOf(id))>=0){p3.go(k); return;}
+  if(id==='vendrato'){p4.lit=1; p4.spin=Math.min(9,p4.spin+3);}
+});
 
 /* ---------- the rail and the marble that rides it ---------- */
 var REST=[[2.4,-1.5,.9],[2.1,-1.9,.9],[2.5,-2.1,.9],[2.3,-2.1,.9],[2.5,-2,.9],[2.2,-1.6,.9]];

@@ -1,0 +1,67 @@
+---
+// Sites from the studio as one viewer: a vertical rail of stops (one per trade) beside a single large browser window,
+// with a strip of every site's thumbnail under it so the whole range is on show at once.
+// Pointing at or tapping a stop moves the marble there and puts that site in the window. It steps through on its own
+// while in view until the visitor picks one. Without JavaScript every stop is still a plain link.
+interface Site {slug:string;name:string;trade:string;kind:string;href:string;client:boolean}
+interface Props {sites:Site[]}
+const {sites}=Astro.props;
+const first=sites[0];
+---
+<div class="st-sites" id="st-sites">
+<div class="st-sites-head"><h3>Find a site like yours.</h3><p>Pick a trade. These are from our studio: client sites, and concept studies we designed for real businesses.</p></div>
+<div class="st-viewer">
+<ol class="st-trades">{sites.map((s,i)=><li class:list={{'is-on':i===0}}><a href={s.href} data-i={i} data-img={`/images/studio/${s.slug}.webp`} data-name={s.name} data-kind={s.kind} data-client={s.client?'1':''}><b>{s.trade}</b><span>{s.name}</span></a></li>)}<li class="st-trades-marble" aria-hidden="true"></li></ol>
+<div class="st-view">
+<a class="st-screen" id="st-screen" href={first.href}>
+<span class="st-screen-bar"><i></i><i></i><i></i><em id="st-screen-url">vendrato.com</em></span>
+<span class="st-screen-view"><img id="st-screen-a" class="on" src={`/images/studio/${first.slug}.webp`} width="1120" height="630" loading="lazy" alt=""/></span>
+<span class="st-screen-foot"><span><b id="st-screen-name">{first.name}</b><span id="st-screen-kind">{first.kind}</span></span><span class="st-screen-tag" id="st-screen-tag">{first.client?'Client site':'Concept study'}</span><span class="st-screen-go">Open it</span></span>
+</a>
+<ol class="st-strip" aria-label="All sites">{sites.map((s,i)=><li class:list={{'is-on':i===0}}><a href={s.href} data-i={i} title={`${s.trade}: ${s.name}`}><img src={`/images/studio/thumb/${s.slug}.webp`} width="280" height="158" loading="lazy" alt=""/><span>{s.trade}</span></a></li>)}</ol>
+</div>
+</div>
+</div>
+<script>
+const root=document.getElementById('st-sites');
+if(root){
+  root.classList.add('js');
+  const list=root.querySelector<HTMLElement>('.st-trades')!, links=[...list.querySelectorAll<HTMLAnchorElement>('a')], thumbs=[...root.querySelectorAll<HTMLAnchorElement>('.st-strip a')], strip=root.querySelector<HTMLElement>('.st-strip')!, marble=list.querySelector<HTMLElement>('.st-trades-marble')!;
+  const screen=document.getElementById('st-screen') as HTMLAnchorElement, imgs=[document.getElementById('st-screen-a') as HTMLImageElement,new Image(1120,630)];
+  imgs[1].alt=''; // the second layer for the crossfade is only added once a second site is shown
+  const $=(id:string)=>document.getElementById(id)!;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cur=0, front=0, timer=0, auto=!reduced, seen=false;
+  const place=()=>{const li=links[cur].parentElement!, t=links[cur].querySelector('b')!, a=li.getBoundingClientRect(), b=list.getBoundingClientRect(), row=getComputedStyle(list).flexDirection==='row';
+    marble.style.transform=row?`translate(${a.left-b.left+list.scrollLeft+a.width/2-9}px,${b.height-18}px)`:`translate(-4px,${li.offsetTop+t.offsetTop+t.offsetHeight/2-9}px)`; marble.classList.add('set');};
+  // rows above grow and shrink for a moment after a pick, so keep the marble on its stop until they settle
+  let settle=0; const follow=()=>{const end=performance.now()+450; cancelAnimationFrame(settle); const step=()=>{place(); if(performance.now()<end) settle=requestAnimationFrame(step);}; step();};
+  const show=(i:number,scrollTo=false)=>{
+    if(i===cur&&seen) return; seen=true; cur=i; const a=links[i];
+    links.forEach((l,k)=>l.parentElement!.classList.toggle('is-on',k===i)); follow();
+    thumbs.forEach((l,k)=>l.parentElement!.classList.toggle('is-on',k===i));
+    if(strip.scrollWidth>strip.clientWidth){const t=thumbs[i].parentElement!; strip.scrollTo({left:t.offsetLeft-strip.clientWidth/2+t.offsetWidth/2,behavior:'smooth'});}
+    if(scrollTo&&list.scrollWidth>list.clientWidth) list.scrollTo({left:a.parentElement!.offsetLeft-list.clientWidth/2+a.parentElement!.offsetWidth/2,behavior:'smooth'});
+    const next=imgs[1-front]; if(!next.isConnected) imgs[0].after(next); const swap=()=>{imgs[front].classList.remove('on'); next.classList.add('on'); front=1-front;};
+    next.onload=swap; next.src=a.dataset.img!; if(next.complete&&next.naturalWidth) swap();
+    screen.href=a.href; $('st-screen-name').textContent=a.dataset.name!; $('st-screen-kind').textContent=a.dataset.kind!;
+    $('st-screen-tag').textContent=a.dataset.client?'Client site':'Concept study'; $('st-screen-url').textContent=new URL(a.href).pathname.replace(/^\/|\/$/g,'').replace(/^/,'vendrato.com/');
+    const pre=new Image(); pre.src=links[(i+1)%links.length].dataset.img!;
+  };
+  const stop=()=>{auto=false; clearInterval(timer);};
+  [...links,...thumbs].forEach(a=>{ const i=Number(a.dataset.i);
+    a.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){stop(); show(i);}});
+    a.addEventListener('focus',()=>{stop(); show(i,true);});
+    // a first tap on a stop selects it; the window (or a second tap) opens the site
+    // (whether it was already selected is noted at pointerdown, because focus selects it before the click arrives)
+    let was=true; a.addEventListener('pointerdown',()=>{was=i===cur;});
+    a.addEventListener('click',e=>{if(!was){e.preventDefault(); was=true; stop(); show(i,true);}});
+  });
+  screen.addEventListener('pointerenter',stop);
+  addEventListener('resize',place); document.fonts?.ready.then(place); place(); seen=true;
+  if('IntersectionObserver' in window) new IntersectionObserver(es=>es.forEach(e=>{
+    root.classList.toggle('in',e.isIntersecting||root.classList.contains('in')); clearInterval(timer);
+    if(e.isIntersecting&&auto) timer=window.setInterval(()=>show((cur+1)%links.length,true),3200);
+  }),{threshold:.3}).observe(root); else root.classList.add('in');
+}
+</script>
