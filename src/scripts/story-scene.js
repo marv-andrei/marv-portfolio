@@ -188,7 +188,7 @@ var p2=piece(2,'Built by hand','Scroll to build the page.',-.42,.08); p2.kn=0; p
 /* the screen's centre, tilt and size were measured from the laptop mesh (normalised units) */
 var SW=1.86, SH=1.134, screenG=new THREE.Group(); screenG.position.set(0,.141,-.731); screenG.rotation.x=-.263;
 screenG.add(new THREE.Mesh(new THREE.PlaneGeometry(SW,SH),new THREE.MeshBasicMaterial({color:0x050505,toneMapped:false})));
-var BUILT=['orias','gawangdiwa','zenith'].map(function(id){var m=shot(id,SW,SH); m.position.z=.004; screenG.add(m); return m;});
+var BUILT=['orias','gawangdiwa','cowmit'].map(function(id){var m=shot(id,SW,SH); m.position.z=.004; screenG.add(m); return m;});
 var page=new THREE.Group(); page.position.z=.02; page.scale.setScalar(SW/4.5); screenG.add(page);
 /* gunmetal shell, black keys, and an orange front lip */
 p2.ready=false; p2.need=function(){load('laptop',[gunmetal,rubber,orange],2.5,function(m,bb){p2.ready=true; m.position.set(-.3,-2-bb.min.y*2.5,0); m.add(screenG); p2.g.add(m); pickable(m,p2);},function(x,y,z,nx,ny,nz){return (nz>.75&&z>.9&&y<-.5)?2:(ny>.8&&y<-.55&&z>-.42&&z<.3&&Math.abs(x)<.86)?1:0;});};
