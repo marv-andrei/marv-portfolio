@@ -11,4 +11,25 @@ const start=()=>import('../scripts/story-scene.js').catch(()=>story?.classList.a
 if(conn&&conn.saveData) story?.classList.add('st-off');
 else if('requestIdleCallback' in window) requestIdleCallback(start,{timeout:1200});
 else setTimeout(start,150);
+
+// Related projects are stops on a rail. The marble sits at the stop in play; pointing at a stop tells the 3D piece,
+// and the piece tells this when a visitor uses it (the laptop's build, the parcel's stop, the gears).
+const lines=[...document.querySelectorAll<HTMLElement>('.st-stops')];
+const place=(ol:HTMLElement)=>{
+  const on=ol.querySelector<HTMLElement>('li.is-on .st-rung'), m=ol.querySelector<HTMLElement>('.st-marble'); if(!on||!m) return;
+  const a=on.getBoundingClientRect(), b=ol.getBoundingClientRect();
+  m.style.transform=`translate(${a.left-b.left+ol.scrollLeft+a.width/2-11}px,${a.top-b.top+a.height/2-11}px)`; m.classList.add('set');
+};
+const pick=(li:Element|null,tell:boolean)=>{
+  if(!li||li.classList.contains('is-on')) return; const ol=li.parentElement as HTMLElement;
+  ol.querySelectorAll('li.is-on').forEach(x=>x.classList.remove('is-on')); li.classList.add('is-on'); place(ol);
+  if(tell) window.dispatchEvent(new CustomEvent('st-project',{detail:li.querySelector('a')?.dataset.project}));
+};
+lines.forEach(ol=>{
+  ol.querySelectorAll('a').forEach(a=>{const li=a.parentElement; a.addEventListener('pointerenter',()=>pick(li,true)); a.addEventListener('focus',()=>pick(li,true));});
+  ol.firstElementChild?.classList.add('is-on');
+});
+const placeAll=()=>lines.forEach(place);
+window.addEventListener('st-scene-project',e=>pick(document.querySelector(`.st-stops a[data-project="${(e as CustomEvent).detail}"]`)?.parentElement??null,false));
+window.addEventListener('resize',placeAll); window.addEventListener('load',placeAll); document.fonts?.ready.then(placeAll); placeAll();
 </script>

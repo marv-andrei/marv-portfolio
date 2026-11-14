@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import sharp from 'sharp';
 import {MeshoptSimplifier} from 'meshoptimizer';
 await MeshoptSimplifier.ready;
-const MODELS={wrench:9000,laptop:11000,parcel:8000,bell:9000}; // target triangle counts
+const MODELS={wrench:9000,parcel:8000,bell:9000}; // target triangle counts
 fs.mkdirSync('public/models',{recursive:true});
 for(const [name,target] of Object.entries(MODELS)){
   const b=fs.readFileSync(`assets-src/models/${name}.bin`), ab=b.buffer.slice(b.byteOffset,b.byteOffset+b.length);
