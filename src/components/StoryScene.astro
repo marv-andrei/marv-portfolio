@@ -1,0 +1,14 @@
+---
+import {projects} from '../data/projects';
+const shots=Object.fromEntries(projects.map(p=>[p.id,{name:p.name,kind:p.kind}]));
+---
+<div class="st-stage" aria-hidden="true"><canvas id="st-scene" data-projects={JSON.stringify(shots)}></canvas><span class="st-hint" id="st-hint">Scroll</span><div class="st-tag" id="st-tag"><b id="st-tag-name"></b><span id="st-tag-sub"></span></div></div>
+<noscript><style>{'@media(max-width:820px){.st-stage{display:none}}'}</style></noscript>
+<script>
+// The scene is decoration, so it waits until the page itself is idle, and is skipped for data-saver visitors.
+const story=document.getElementById('st-story'), conn=(navigator as any).connection;
+const start=()=>import('../scripts/story-scene.js').catch(()=>story?.classList.add('st-off'));
+if(conn&&conn.saveData) story?.classList.add('st-off');
+else if('requestIdleCallback' in window) requestIdleCallback(start,{timeout:1200});
+else setTimeout(start,150);
+</script>

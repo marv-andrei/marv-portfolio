@@ -1,4 +1,5 @@
 @import '@fontsource-variable/schibsted-grotesk';
+@import '@fontsource-variable/manrope';
 :root{--paper:#101010;--ink:#f5f5f5;--muted:#a6a6a6;--lilac:#202020;--coral:#303030;--line:#363636;--white:#fff;--blue:#f5f5f5;--deep:#080808;--mist:#191919;font-family:'Schibsted Grotesk Variable',Arial,sans-serif;background:var(--paper);color:var(--ink);font-synthesis:none}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:36px}body{margin:0}a{color:inherit;text-decoration:none}button{font:inherit}button,a,summary{-webkit-tap-highlight-color:transparent}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #c64b25;outline-offset:5px}img{display:block;width:100%;height:auto}h1,h2,h3,p{margin:0}h1,h2,h3{font-weight:500}h1{font-size:clamp(54px,7.3vw,110px);line-height:1.02;letter-spacing:-.065em}h2{font-size:clamp(34px,4.3vw,62px);line-height:1.06;letter-spacing:-.055em}h3{font-size:28px;line-height:1.17;letter-spacing:-.035em}p{line-height:1.65}::selection{background:var(--coral);color:var(--ink)}[hidden]{display:none!important}.wrap,.nav-wrap{width:min(1360px,calc(100% - 112px));margin-inline:auto}.skip-link{position:fixed;top:12px;left:12px;transform:translateY(-200%);background:white;padding:14px;z-index:100}.skip-link:focus{transform:none}.site-header{height:112px}.nav-wrap{display:flex;align-items:center;height:100%;gap:40px}.wordmark{font-weight:750;font-size:44px;letter-spacing:-.08em;line-height:1;white-space:nowrap}.wordmark span{font-size:23px;vertical-align:top;display:inline-block;line-height:1.2;margin-left:3px;font-weight:400}.nav-descriptor{font-size:11px;line-height:1.5;color:var(--muted)}nav{margin-left:auto;display:flex;align-items:center;gap:35px}nav a{font-size:14px;padding:12px 0;position:relative}nav a[aria-current=page]{text-decoration:underline;text-underline-offset:7px}nav a:hover{color:#bf401f}.nav-contact{background:var(--ink);color:white;border-radius:30px;padding:15px 25px}nav .nav-contact:hover{background:var(--blue);color:white}.button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;border-radius:30px;padding:16px 26px;font-weight:500;font-size:14px;border:1px solid transparent;transition:background .2s,color .2s}.button-blue{background:var(--ink);color:#fff}.button-blue:hover{background:#bf401f}.button-white{background:var(--paper);color:var(--ink)}.button-white:hover{background:var(--coral)}.text-link{display:inline-block;border-bottom:1px solid currentColor;padding-bottom:5px;font-size:14px;font-weight:500;line-height:1.5}.text-link:hover{color:#bf401f}.section-context{font-size:13px;color:var(--muted);margin-bottom:20px}.section{padding-block:110px}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:45px;margin-bottom:55px}.section-heading>div>p,.section-heading>p{font-size:15px;color:var(--muted);margin-bottom:20px}.section-heading h2{max-width:750px}
 /* A personal introduction, followed immediately by the work. */
@@ -84,3 +85,18 @@ nav .nav-contact:hover,.button-blue:hover{background:#cfcfcf;color:#101010}
  .reel-step button{min-width:54px;font-size:12px}
  .footer-links a{min-height:44px;display:inline-flex;align-items:center}
 }
+
+/* Vendrato alignment, 2026-11-13: Marv is presented as a consultant at Vendrato, so every route takes the
+   studio's brand: black, warm paper, one orange, Manrope with tight medium headings, 2px corners. No arrows. */
+:root{--paper:#000;--ink:#edebe6;--muted:#a8a6a0;--lilac:#0d0d0d;--coral:#171717;--line:#2b2a28;--deep:#000;--mist:#0d0d0d;--signal:#f05123;font-family:'Manrope Variable',system-ui,sans-serif}
+h1,h2,h3{letter-spacing:-.045em}
+.button,.nav-contact,.filters button,.brief-options button,.image-link,.reel-open{border-radius:2px}
+.button-blue,.nav-contact{background:var(--signal);color:#000}
+.button-blue:hover,nav .nav-contact:hover{background:#ff6a3d;color:#000}
+nav a:hover,.text-link:hover,.next-project>a:hover,.contact-invitation:hover{color:var(--signal)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline-color:var(--signal)}
+.period,.name-dot,.contact-flower{color:var(--signal)}.status-dot{background:var(--signal)}
+.brand{display:inline-flex;align-items:center;gap:14px;font-size:14px;font-weight:500;white-space:nowrap}
+.brand img{height:22px;width:auto}.brand span{color:var(--muted)}
+.footer-inner>.brand img{height:18px}
+@media(max-width:760px){.brand span{display:none}.brand img{height:18px}}

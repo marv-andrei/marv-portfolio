@@ -26,12 +26,14 @@
     "id": "zenith",
     "name": "Zenith",
     "platform": "WordPress",
-    "kind": "Elementor landing page",
+    "kind": "Landing page maintenance",
     "color": "#E4E9D8",
-    "url": "https://lp.tryzenith.ph/lp1-qz1/",
-    "description": "A WordPress product landing page that brings the night-cream story, product information and offer into one place.",
-    "scope": "Landing-page build in WordPress and Elementor.",
-    "note": "A product-focused layout that gives visitors a route from learning about the night cream to reviewing the offer. This example shows my WordPress landing-page work."
+    "url": "https://lp.tryzenith.ph/lp-1-8/",
+    "description": "Maintenance and updates for a WordPress landing page that brings a night-cream story, product information and offer into one place.",
+    "scope": "Maintenance and updates in WordPress and Elementor. Not my original build.",
+    "note": "I did not build this page. My part is maintenance and updates in WordPress and Elementor: keeping the content and offers current and the page working as it changes. This example shows my WordPress upkeep work.",
+    "format": "Elementor landing page",
+    "heading": "About the work."
   },
   {
     "id": "balzy",
