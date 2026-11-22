@@ -100,3 +100,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline-color:var(--s
 .brand img{height:22px;width:auto}.brand span{color:var(--muted)}
 .footer-inner>.brand img{height:18px}
 @media(max-width:760px){.brand span{display:none}.brand img{height:18px}}
+
+/* Blog link, 2026-11-22: keep the header on one line on phones; the footer carries the Blog link there. */
+.nav-contact{white-space:nowrap}
+@media(max-width:520px){nav .nav-blog{display:none}}

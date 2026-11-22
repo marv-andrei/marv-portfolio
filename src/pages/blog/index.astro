@@ -1,0 +1,28 @@
+---
+import Site from '../../layouts/Site.astro';
+import ContactBand from '../../components/ContactBand.astro';
+import { getPosts, formatDate } from '../../data/blog';
+import '../../styles/blog.css';
+const posts = await getPosts();
+---
+<Site title="Notes on pages that sell" description="Practical notes on landing pages, funnels, Shopify and the automations behind them, from builds Marv has worked on." active="blog">
+  <section class="wrap page-intro blog-intro">
+    <p class="section-context">Blog</p>
+    <h1>Notes on pages<br>that sell.</h1>
+    <p>Landing pages, funnels, storefronts and the follow-up behind them. Short, practical, and written from the builds I work on.</p>
+  </section>
+  <section class="wrap blog-list" aria-label="Articles">
+    {posts.map((post) => (
+      <article class="blog-card">
+        <div class="blog-meta">
+          <span>{post.data.topic}</span>
+          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+        </div>
+        <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
+        <p>{post.data.description}</p>
+        <span class="blog-read">{post.data.readingTime} read</span>
+      </article>
+    ))}
+  </section>
+  <ContactBand/>
+</Site>
